@@ -9,7 +9,7 @@ const getUsers = () => {
     const data = fs.existsSync(filePath)   // Aqui vamos verificar se o arquivo existe
         ? fs.readFileSync(filePath)       // Se ele existi vai retornar o arquivo de maneira assíncrona
         : []                             //Se não existi vai retorna um obj vazio
-       
+
     try {
         return JSON.parse(data) //retorna os arquivo JSON
     } catch (error) {  //retorna vazio se tiver algum problema na leitura do arquivo
@@ -19,18 +19,28 @@ const getUsers = () => {
 
 
 // Método para salvar
-const saveUser = (users) => fs.writeFileSync(filePath, JSON.stringify(users, null, '\t'))
+const saveUsers = (users) => fs.writeFileSync(filePath, JSON.stringify(users, null, '\t'))
 
 //Função com os métodos HTTP
 const userRoute = (app) => {
     app.route('/users/:id?')
-        
+
         .get((req, res) => {
             const users = getUsers()
 
             res.send({ users })
-        })   
-        
+        })
+
+        //Método POST para  a criação de usuários
+        .post((req, res) => {
+            const users = getUsers()
+            
+            users.push(req.body)
+            saveUsers(users)
+
+            res.status(201).send('ok')
+        })
+
 }
 
 module.exports = userRoute
