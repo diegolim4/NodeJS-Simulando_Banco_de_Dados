@@ -57,6 +57,17 @@ const userRoute = (app) => {
             res.status(200).send('Usuário Atulizado')
         })
 
+        //Método DELET deletar usuários
+        .delete((req, res)=>{
+            const users = getUsers()
+
+            saveUsers(users.filter(user => user.id !== req.params.id)) //Usar o filter() para excluir, pelo id
+
+            res.status(200).send('Usuário Deletado')
+        })
+
+
+
 }
 
 module.exports = userRoute
