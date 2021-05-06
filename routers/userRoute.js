@@ -31,14 +31,30 @@ const userRoute = (app) => {
             res.send({ users })
         })
 
-        //Método POST para  a criação de usuários
+        //Método POST para a criação de usuários
         .post((req, res) => {
             const users = getUsers()
-            
+
             users.push(req.body)
             saveUsers(users)
 
-            res.status(201).send('ok')
+            res.status(201).send('Usuário Criado')
+        })
+
+        //Método PUT para a atualização de usuários
+        .put((req, res) => {
+            const users = getUsers()
+
+            saveUsers(users.map(user => {      //Usar a função map() para criar um novo obj atualizado, passando o id
+                if (user.id == req.params.id) {
+                    return {
+                        ...user,
+                        ...req.body
+                    }
+                }return user
+            }))
+            
+            res.status(200).send('Usuário Atulizado')
         })
 
 }
