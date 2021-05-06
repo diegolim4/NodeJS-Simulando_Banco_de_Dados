@@ -1,8 +1,9 @@
 const express = require('express')
-app = express()
-
+const bodyParser = require('body-parser')
 const userRoute = require('./routers/userRoute')
 
+app = express()
+app.use(bodyParser.urlencoded({extended: false}))
 userRoute(app)  
 
 app.get('/', (req, res) => {
