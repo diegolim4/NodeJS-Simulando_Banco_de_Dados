@@ -1,6 +1,9 @@
 const express = require('express')
 app = express()
 
+const userRoute = require('./routers/userRoute')
+
+userRoute(app)  
 
 app.get('/', (req, res) => {
     res.send('Hello World')
